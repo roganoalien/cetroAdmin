@@ -1,0 +1,32 @@
+extends ../layout.pug
+
+block content
+	.flex.flex-wrap.container.mx-auto.h-screen
+		div.h-screen(class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4 ml-auto mr-auto flex flex-col justify-center align-center")
+			img.mt-16.mb-8.mx-auto(class="w-9/12", src="/public/images/logos/cetro-logo.svg", alt="Cetro Logo")
+			h1.text-xs.text-center.mb-4.font-regular.uppercase.text-gray-500 Registro
+			form.login.bg-white.shadow-xl.rounded.px-8.pt-6.pb-8.mb-4(action="/registro", method="POST")
+				.mb-4
+					//- if missing .border-red-500
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="name") Nombre
+					input.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tigt#name(type="name", placeholder="Nombre", class="focus:outline-none focus:shadow-outline", name="name")
+					p.text-red-500.text-xs.italic#nameMissing
+				.mb-4
+					//- if missing .border-red-500
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="email") Correo
+					input.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tigt#email(type="email", placeholder="Correo", class="focus:outline-none focus:shadow-outline", name="email")
+					p.text-red-500.text-xs.italic#emailMissing
+				.mb-6
+					//- if missing .border-red-500
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="password") Password
+					input.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tigt#password(type="password", placeholder="*********", class="focus:outline-none focus:shadow-outline", name="password")
+					p.text-red-500.text-xs.italic#passwordMissing
+				.mb-6
+					//- if missing .border-red-500
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="confirmPassword") Password
+					input.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tigt#confirmPassword(type="password", placeholder="*********", class="focus:outline-none focus:shadow-outline", name="confirmPassword")
+					p.text-red-500.text-xs.italic#confirmMissing
+				.flex.items-center.justify-center
+					button.custom-button-admin(class="hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline", type="submit") Registrarse
+					//- a.custom-anchor-admin(href="/login", class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800") Iniciar Sesión
+			p.text-center.text-gray-500.text-xs &copy;2020 Desarrollado por TechArmy

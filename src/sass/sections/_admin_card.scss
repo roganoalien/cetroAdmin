@@ -1,0 +1,168 @@
+// @import '../config/vars.color';
+#menuOpener {
+	cursor: pointer;
+	svg {
+		&.close-icon {
+			display: block;
+		}
+		&.open-icon {
+			display: none;
+		}
+	}
+	&.closed {
+		svg {
+			&.close-icon {
+				display: none;
+			}
+			&.open-icon {
+				display: block;
+			}
+		}
+	}
+}
+
+.label-file-input {
+	.loading-svg,
+	.error-svg,
+	.success-svg {
+		display: none;
+	}
+	.fill-current {
+		display: block;
+	}
+	&.loading {
+		.loading-svg {
+			animation: loader 2s linear infinite;
+			display: block;
+			transform: rotate(0deg);
+		}
+		.fill-current {
+			display: none;
+		}
+	}
+	&.success {
+		background: rgba(#9ae6b4, 0.1) !important;
+		border: 1px solid #68d391;
+		svg {
+			display: none;
+		}
+		.success-svg {
+			display: block;
+		}
+	}
+	&.error {
+		background: rgba(#fc8181, 0.1) !important;
+		border: 1px solid #f56565;
+		svg {
+			display: none;
+		}
+		.error-svg {
+			display: block;
+		}
+	}
+}
+
+@keyframes loader {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+#menuHolder {
+	height: auto;
+	max-height: 700px;
+	overflow: hidden;
+	padding-bottom: 0.75em;
+	transition: all 0.5s linear;
+	&.closed {
+		max-height: 0;
+		padding-bottom: 0;
+	}
+}
+
+.menu-card {
+	@include my-shadow(0, 35px, 20px, -25px, $c-black, 0.1);
+	background: white;
+	border: 1px solid #e2e2e2;
+	transform: scale(1);
+	transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	h4 {
+		font-size: 18px;
+		opacity: 0.75;
+	}
+	.tag {
+		@include flex-container(center, row, flex-start);
+		opacity: 0.5;
+		span {
+			font-size: 14px;
+		}
+		svg {
+			height: 16px;
+			margin-right: 8px;
+			width: auto;
+		}
+	}
+	&:hover {
+		background: #f5f5f5;
+		border: 1px solid #8e8e8e;
+		transform: scale(1.05);
+		h4,
+		.tag {
+			opacity: 1;
+		}
+	}
+	&.active {
+		@include my-shadow(0, 25px, 20px, -25px, $c-black, 0.1);
+		background: white;
+		border: 1px solid #606060;
+		transform: scale(0.95);
+		h4,
+		.tag {
+			opacity: 1;
+		}
+	}
+	&.more-item {
+		@include my-shadow(0, 35px, 20px, -25px, $c-black, 0.1);
+		background: white;
+		border: 1px solid #606060;
+		position: relative;
+		transform: scale(0.95);
+		h4,
+		.tag {
+			opacity: 1;
+		}
+		textarea {
+			background: #edf2f7;
+			border: 1px solid lighten(#606060, 25%);
+			box-shadow: none;
+			outline: none !important;
+			padding: 1em;
+			&:focus,
+			&:active {
+				background: transparent;
+				border: 1px solid #68d391;
+			}
+		}
+		button.delete {
+			background: $c-pink;
+			svg {
+				height: 18px;
+				margin-top: 3px;
+				width: auto;
+			}
+			&:hover {
+				background: darken($c-pink, 10%);
+			}
+		}
+	}
+}
+
+.my-button-shadow {
+	@include my-shadow(0, 20px, 20px, -15px, #4299e1, 0.5);
+	&:hover {
+		@include my-shadow(0, 20px, 20px, -15px, #4299e1, 1);
+	}
+}

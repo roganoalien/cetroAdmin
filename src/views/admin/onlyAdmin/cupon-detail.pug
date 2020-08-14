@@ -1,0 +1,63 @@
+extends ../../layout.pug
+
+block content
+	include ../../parts/nav.pug
+	include ../../parts/menu.pug
+
+	div(class="container w-full flex flex-wrap mx-auto px-2 pt-8 lg:pt-16 mt-16")
+		+menu(false, false, false, true, false, false, false)
+		div(class="w-full lg:w-4/5 p-8 mt-6 lg:mt-0 text-gray-900 leading-normal bg-white border border-gray-400 border-rounded shadow-xl flex flex-wrap flex-col")
+			h1.title(class="w-full px-2 text-xl font-bold uppercase text-black flex items-center")=promo.title
+				if vigente
+					span.ml-2.bg-green-200.text-green-500.lowercase.text-sm.px-3.py-1.rounded-full Vigente
+				else
+					span.ml-2.px-3.py-1.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-red-200.text-red-500.lowercase No vigente
+			.flex.my-4
+				.-mt-2.py-2.overflow-x-auto(class="sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8")
+					.align-middle.inline-block.min-w-full.overflow-hidden(class="border border-gray-200")
+						table.min-w-full.border.border-gray-300
+							thead
+								tr
+									th.px-6.py-3.border-b.border-gray-200.bg-gray-200.text-left.text-xs.leading-4.font-medium.text-gray-600.uppercase.tracking-wider Título
+									th.px-6.py-3.border-b.border-gray-200.bg-gray-200.text-left.text-xs.leading-4.font-medium.text-gray-600.uppercase.tracking-wider Valor
+							tbody.bg-white
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Nombre
+									td.px-4.py-2(class="w-2/3")
+										p.text-black=promo.title
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Descuento
+									td.px-4.py-2(class="w-2/3")
+										p.text-black=promo.discount
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Descripción
+									td.px-4.py-2(class="w-2/3")
+										p.text-black=promo.description
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Válido hasta
+									td.px-4.py-2(class="w-2/3")
+										p.text-black=promo.valid_until
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Marca
+									td.px-4.py-2.flex.items-center.justify-start(class="w-2/3")
+										img.mr-2.h-8.w-8.rounded-full.object-cover(src=promo.brand.image.url)
+										p.text-black=promo.brand.name
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Palabras clave
+									td.px-4.py-2.flex.flex-wrap.items-center.justify-start(class="w-2/3")
+										each keyword, index in promo.keywords
+											if index === promo.keywords.length - 1
+												p.text-black=`${keyword}`
+											else
+												p.text-black=`${keyword},\xa0`
+			.flex.w-full
+				a.custom-button-admin(class="hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" href=`/admin/cupones/editar/${promo._id}`) Editar Cupón
+					//- .holder.mb-3(class="w-1/3")
+					//- 	p.m-0.text-gray-600 Responsable3
+					//- 	p.mb-2.text-lg=event.responsable.name

@@ -1,0 +1,5 @@
+mixin regular-item( $url = '/admin', $name = 'regular-item', $isActive = false )
+	- var $selected = $isActive ? 'active' : '';
+	li(class="py-2 md:my-0 inline-block mr-6 sm:inline-block sm:mr-6 md:inline-block sm:mr-6 lg:block lg:mr-0 xl:block xl:mr-0")
+		a.admin-left-nav-anchor(href=$url, class=`${$selected} block pl-4 align-middle text-gray-700 no-underline border-l-4 border-transparent lg:border-gray-400`)
+			span(class="pb-1 md:pb-0 text-sm font-bold text-gray-700")=$name

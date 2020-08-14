@@ -1,0 +1,50 @@
+include ./subpart/menu-items.pug
+
+mixin menu($one = true, $two = false, $three = false, $four = false, $five = false, $six = false, $seven = false, $eight = false, $nine = false, $ten = false, $eleven = false, $twelve = false, $trece = false, $catorce = false, $quince = false, $dieciseis = false, $diecisiete = false, $dieciocho = false, $diecinueve = false, $veinte = false, $veintiuno = false)
+	div(class="w-full lg:w-1/5 lg:px-6 text-xl text-gray-800 leading-normal")
+		div(class="w-full sticky inset-0 lg:h-auto overflow-x-hidden overflow-y-auto lg:overflow-y-hidden lg:block mt-0 z-20", style="top: 5em;")
+			p(class="text-base font-bold py-2 lg:pb-6 text-gray-700") Menú
+			ul.list-reset
+				//- Sin Categoría
+				+regular-item('/admin', 'Dashboard', $one)
+				+regular-item('/admin/calendario', 'Calendario', $seven)
+				+regular-item('/admin/custom/espacios', 'Espacios Adicionales', $dieciocho)
+				//- Boletos
+				//- li(class="py-2 md:my-0 inline-block mr-6 sm:inline-block sm:mr-6 md:inline-block sm:mr-6 lg:block lg:mr-0 xl:block xl:mr-0")
+				//- 	span.block.pl-4.align-middle.text-sm.font-bold.text-gray-500.no-underline.border-l-4.border-transparent(class="md:pb-0") Boletos Vendidos
+				//- 	ul.pl-4
+				//- 		+regular-item('/admin/mirador', 'De Mirador', $eleven)
+				//- Eventos
+				li(class="py-2 md:my-0 inline-block mr-6 sm:inline-block sm:mr-6 md:inline-block sm:mr-6 lg:block lg:mr-0 xl:block xl:mr-0")
+					span.block.pl-4.align-middle.text-sm.font-bold.text-gray-500.no-underline.border-l-4.border-transparent(class="md:pb-0") Eventos
+					ul.pl-4
+						+regular-item('/admin/aprobar-eventos', 'Aprobar eventos', $twelve)
+						+regular-item('/admin/eventos', 'Todos los eventos', $four)
+						+regular-item('/admin/eventos/crear-evento', 'Agregar Evento', $five)
+						+regular-item('/admin/eventos/mis-eventos', 'Mis Eventos', $six)
+				//- Usuarios
+				li(class="py-2 md:my-0 inline-block mr-6 sm:inline-block sm:mr-6 md:inline-block sm:mr-6 lg:block lg:mr-0 xl:block xl:mr-0")
+					span.block.pl-4.align-middle.text-sm.font-bold.text-gray-500.no-underline.border-l-4.border-transparent(class="md:pb-0") Usuarios
+					ul.pl-4
+						+regular-item('/admin/usuarios', 'Administrar Usuarios', $two)
+						+regular-item('/admin/usuarios/crear-usuario', 'Crear Usuarios', $three)
+				//- Mirador
+				li(class="py-2 md:my-0 inline-block mr-6 sm:inline-block sm:mr-6 md:inline-block sm:mr-6 lg:block lg:mr-0 xl:block xl:mr-0")
+					span.block.pl-4.align-middle.text-sm.font-bold.text-gray-500.no-underline.border-l-4.border-transparent(class="md:pb-0") Mirador
+					ul.pl-4
+						+regular-item('/admin/eventos/mirador/crear', 'Agregar mirador', $veintiuno)
+						+regular-item('/admin/mirador/boletos', 'Boletos Vendidos', $diecinueve)
+						+regular-item('/admin/mirador/calendario', 'Calendario de Mirador', $veinte)
+				//- CUSTOM DATA
+				//- li(class="py-2 md:my-0 inline-block mr-6 sm:inline-block sm:mr-6 md:inline-block sm:mr-6 lg:block lg:mr-0 xl:block xl:mr-0")
+				//- 	span.block.pl-4.align-middle.text-sm.font-bold.text-gray-500.no-underline.border-l-4.border-transparent(class="md:pb-0") Custom Data
+				//- 	ul.pl-4
+				//- +regular-item('/admin/custom/analysis', 'Data Analysis', $diecisiete)
+				//- Marcas y cupones
+				li(class="py-2 md:my-0 inline-block mr-6 sm:inline-block sm:mr-6 md:inline-block sm:mr-6 lg:block lg:mr-0 xl:block xl:mr-0")
+					span.block.pl-4.align-middle.text-sm.font-bold.text-gray-500.no-underline.border-l-4.border-transparent(class="md:pb-0") Marcas y cupones
+					ul.pl-4
+						+regular-item('/admin/marcas/crear', 'Crear Marcas', $trece)
+						+regular-item('/admin/marcas', 'Ver Marcas', $quince)
+						+regular-item('/admin/cupones/crear', 'Crear Cupón', $catorce)
+						+regular-item('/admin/cupones', 'Ver Cupones', $dieciseis)

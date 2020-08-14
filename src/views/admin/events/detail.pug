@@ -1,0 +1,126 @@
+extends ../../layout.pug
+
+block content
+	include ../../parts/nav.pug
+	include ../../parts/menu.pug
+
+	div(class="container w-full flex flex-wrap mx-auto px-2 pt-8 lg:pt-16 mt-16")
+		+menu(false, false, false, true, false, false, false)
+		div(class="w-full lg:w-4/5 p-8 mt-6 lg:mt-0 text-gray-900 leading-normal bg-white border border-gray-400 border-rounded shadow-xl flex flex-wrap flex-col")
+			h1.title(class="w-full px-2 text-xl font-bold uppercase text-black flex items-center")=event.name
+				if event.status == 'Reservado' || event.status == 'Pendiente de pago'
+					span.ml-2.bg-orange-200.text-orange-500.lowercase.text-sm.px-3.py-1.rounded-full=event.status
+					if event.validation
+						.ml-2.px-3.py-1.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-red-200.text-red-500.lowercase Necesita remover mirador
+				else if event.status == 'Pagado' || event.status == 'En proceso'
+					span.ml-2.bg-green-200.text-green-500.lowercase.text-sm.px-3.py-1.rounded-full=event.status
+					if event.validation
+						.ml-2.px-3.py-1.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-red-200.text-red-500.lowercase Necesita remover mirador
+				else if event.status == 'Finalizado'
+					span.ml-2.bg-gray-200.text-gray-700.lowercase.text-sm.px-3.py-1.rounded-full=event.status
+					if event.validation
+						.ml-2.px-3.py-1.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-red-200.text-red-500.lowercase Necesita remover mirador
+			.flex.my-4
+				.-mt-2.py-2.overflow-x-auto(class="sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8")
+					.align-middle.inline-block.min-w-full.overflow-hidden(class="border border-gray-200")
+						table.min-w-full.border.border-gray-300
+							thead
+								tr
+									th.px-6.py-3.border-b.border-gray-200.bg-gray-200.text-left.text-xs.leading-4.font-medium.text-gray-600.uppercase.tracking-wider Título
+									th.px-6.py-3.border-b.border-gray-200.bg-gray-200.text-left.text-xs.leading-4.font-medium.text-gray-600.uppercase.tracking-wider Descripción
+							tbody.bg-white
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Fecha del evento
+									td.px-4.py-2(class="w-2/3")
+										p.text-black=`${event.date.start} al ${event.date.end}`
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Horario del evento
+									td.px-4.py-2(class="w-2/3")
+										p.text-black=`${event.time.start} al ${event.time.end}`
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Responsable
+									td.px-4.py-2(class="w-2/3")
+										p.text-black=event.responsable.name
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Tipo de evento
+									td.px-4.py-2(class="w-2/3")
+										p.text-black=event.type
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Clasificación
+									td.px-4.py-2(class="w-2/3")
+										p.text-black=event.classification
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Espacio
+									td.px-4.py-2(class="w-2/3")
+										p.text-black=event.space
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Servicios
+									td.px-4.py-2(class="w-2/3")
+										p.text-black=event.services
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Comentarios
+									td.px-4.py-2(class="w-2/3")
+										p.text-black=event.comments
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Cliente
+									td.px-4.py-2(class="w-2/3")
+										p.text-black=event.client.name
+										p.text-black=event.client.email
+										p.text-black=event.client.phone
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Capacidad
+									td.px-4.py-2(class="w-2/3")
+										p.text-black=event.capacity
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Montaje
+									td.px-4.py-2(class="w-2/3")
+										p.text-black=event.mounting.date
+										p.text-black=event.mounting.time
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Desmontaje
+									td.px-4.py-2(class="w-2/3")
+										p.text-black=event.unmounting.date
+										p.text-black=event.unmounting.time
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Precio
+									td.px-4.py-2(class="w-2/3")
+										p.text-black=event.price
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Adelanto
+									td.px-4.py-2(class="w-2/3")
+										p.text-black=event.advance_payment
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Vertical
+									td.px-4.py-2(class="w-2/3")
+										p.text-black=event.vertical
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Data Analysis
+									td.px-4.py-2(class="w-2/3")
+										p.text-black=event.data_analysis.name
+										p.text-black=event.data_analysis.value
+								tr.border-b.border-gray-300
+									td.px-4.py-2.border-r.border-gray-300(class="w-1/3")
+										p.text-gray-500.m-0 Espacios adicionales
+									td.px-4.py-2(class="w-2/3")
+										p.text-black=event.additional_spaces
+			.flex.w-full
+				a.custom-button-admin(class="hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" href=`/admin/eventos/regular/editar/${event._id}`) Editar Evento
+					//- .holder.mb-3(class="w-1/3")
+					//- 	p.m-0.text-gray-600 Responsable3
+					//- 	p.mb-2.text-lg=event.responsable.name

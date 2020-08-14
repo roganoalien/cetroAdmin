@@ -1,0 +1,69 @@
+extends ../../layout.pug
+
+block content
+	include ../../parts/nav.pug
+	include ../../parts/menu.pug
+
+	div(class="container w-full flex flex-wrap mx-auto px-2 pt-8 lg:pt-16 mt-16")
+		+menu(false, false, false, false, false, false, false, false, false, false, false, true)
+		div(class="w-full lg:w-4/5 p-8 mt-6 lg:mt-0 text-gray-900 leading-normal bg-white border border-gray-400 border-rounded shadow-xl flex flex-wrap flex-col overflow-x-auto")
+			h1.title(class="w-full px-2 text-xl font-bold uppercase text-gray-600") Aprobar eventos
+			p(class="w-full px-2 mb-4 font-bold text-gray-500") Aquí podrás aprobar o rechazar los eventos que no tienen aprobación
+			if events.length < 1
+				h2.px-2 No hay eventos que necesiten aprobación
+			else
+				.flex.flex-col.mb-4
+					.-my-2.py-2.overflow-x-auto(class="sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8")
+						.align-middle.inline-block.min-w-full.overflow-hidden(class="border border-gray-200")
+							table.min-w-full
+								thead
+									tr
+										th.px-4.py-3.border-b.border-gray-200.bg-gray-200.text-left.text-xs.leading-4.font-medium.text-gray-600.uppercase.tracking-wider Nombre
+										th.px-4.py-3.border-b.border-gray-200.bg-gray-200.text-left.text-xs.leading-4.font-medium.text-gray-600.uppercase.tracking-wider Usuario
+										th.px-4.py-3.border-b.border-gray-200.bg-gray-200.text-left.text-xs.leading-4.font-medium.text-gray-600.uppercase.tracking-wider Fecha/s
+										th.px-4.py-3.border-b.border-gray-200.bg-gray-200.text-left.text-xs.leading-4.font-medium.text-gray-600.uppercase.tracking-wider Horario
+										th.px-4.py-3.border-b.border-gray-200.bg-gray-200.text-left.text-xs.leading-4.font-medium.text-gray-600.uppercase.tracking-wider Tipo
+										th.px-4.py-3.border-b.border-gray-200.bg-gray-200.text-left.text-xs.leading-4.font-medium.text-gray-600.uppercase.tracking-wider Estatus
+										th.px-4.py-3.border-b.border-gray-200.bg-gray-200.text-left.text-xs.leading-4.font-medium.text-gray-600.uppercase.tracking-wider Clasificación
+										th.px-4.py-3.border-b.border-gray-200.bg-gray-200.text-left.text-xs.leading-4.font-medium.text-gray-600.uppercase.tracking-wider Acciones
+								tbody.bg-white
+									if events
+										each event in events
+											tr.border-b.border-gray-200(class="hover:bg-gray-100")
+												td.px-4.py-2.border-b.border-gray-200
+													.flex.items-center
+														.text-sm.leading-5.font-medium.text-gray-900.underline
+															a(href=`/admin/eventos/detalle/${event._id}`)=event.name
+												td.px-4.py-2.border-b.border-gray-200
+													.flex.items-center
+														.text-sm.leading-5.font-medium.text-gray-900=event.responsable.name
+												td.px-4.py-2.whitespace-no-wrap.border-b.border-gray-200
+													.text-sm.leading-5.font-medium.text-gray-500=event.date.start
+													.text-sm.leading-5.font-medium.text-gray-500=event.date.end
+												td.px-4.py-2.whitespace-no-wrap.border-b.border-gray-200
+													.text-sm.leading-5.font-medium.text-gray-500.text-center=event.time.start
+													.text-sm.leading-5.font-medium.text-gray-500.text-center=event.time.end
+												td.px-4.py-2.whitespace-no-wrap.text-sm.leading-5.text-gray-500.border-b.border-gray-200=event.type
+												td.px-4.py-2.whitespace-no-wrap.flex.flex-wrap.items-center
+													if event.status == 'Reservado' || event.status == 'Pendiente de pago' || event.status == 'Sin aprobación'
+														.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-orange-200.text-orange-500=event.status
+														if event.validation
+															.mt-2.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-red-200.text-red-500 Necesita remover mirador
+													else if event.status == 'Pagado' || event.status == 'En proceso'
+														.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-green-200.text-green-700=event.status
+														if event.validation
+															.mt-2.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-red-200.text-red-500 Necesita remover mirador
+													else if event.status == 'Finalizado'
+														.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-gray-200.text-gray-700=event.status
+														if event.validation
+															.mt-2.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-red-200.text-red-500 Necesita remover mirador
+												td.px-4.py-2.whitespace-no-wrap.text-sm.leading-5.text-gray-500.border-b.border-gray-200=event.classification
+												td.px-4.py-2.whitespace-no-wrap.text-right.text-sm.leading-5.font-black.border-b.border-gray-200
+													.flex.justify-center
+														if user.email === 'test@test.com'
+															span.text-sm.whitespace-no-wrap No tienes permiso
+														else
+															a.text-blue-400.mr-1(href=`/admin/eventos/aprobar/${event._id}` class="hover:text-blue-700", onclick="return confirm('Esta acción aprobará el evento. ¿Deseas continuar?')")
+																<svg class="fill-current" xmlns="http://www.w3.org/2000/svg" height="24" width="24" x="0" y="0" version="1.1" viewBox="0 0 32 32" xml:space="preserve"><path class="stroke-current" fill="none" stroke-miterlimit="10" stroke-width="2" d="M28 8L16 20 11 15"/><path d="M26 14.2L26 26 6 26 6 6 25.8 6 27.8 4 4 4 4 28 28 28 28 12.2z"/></svg>
+															a.text-red-500(href=`/admin/eventos/rechazar/${event._id}` class="hover:text-red-700", onclick="return confirm('Esta acción rechazará el evento. ¿Deseas continuar?')")
+																<svg class="stroke-current" xmlns="http://www.w3.org/2000/svg" height="24" width="24" x="0" y="0" version="1.1" viewBox="0 0 32 32" xml:space="preserve"><circle class="stroke-current" cx="16" cy="16" r="12" fill="none" stroke-miterlimit="10" stroke-width="2"/><path class="stroke-current" fill="none" stroke-miterlimit="10" stroke-width="2" d="M7.8 7.6L24.2 24.4"/></svg>

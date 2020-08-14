@@ -1,0 +1,22 @@
+extends ../../layout.pug
+
+block content
+	include ../../parts/nav.pug
+	include ../../parts/menu.pug
+
+	div(class="container w-full flex flex-wrap mx-auto px-2 pt-8 lg:pt-16 mt-16")
+		+menu(false, false, false, false, true, false, false)
+		div(class="w-full lg:w-4/5 p-8 mt-6 lg:mt-0 text-gray-900 leading-normal bg-white border border-gray-400 border-rounded shadow-xl flex flex-wrap flex-col")
+			h1.title(class="px-2 w-full text-xl font-bold uppercase text-gray-600") Crear Evento Mirador
+			span#isLookout.hidden(data-lookout=`${lookout ? 'true' : 'false'}`)
+			form.w-full.flex.admin-form.flex-wrap(action=`${lookout ? '/admin/mirador/actualizar/' + lookout._id : '/admin/mirador/agregar'}`, method="POST")
+				.px-2.mb-4(class="w-full input-group")
+					.bg-gray-200.px-4.py-4.rounded
+						label.block.text-gray-700.text-sm.font-bold.mb-2(for="dates") Fecha/s a remover
+						input.flatpickr.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="text", class="focus:outline-none focus:shadow-outline", name="dates", id="dates", value=`${lookout ? lookout.date : ''}`, required)
+				.px-2.mt-4.w-full.flex.items-center.justify-center
+					- var btnName = event ? 'Actualizar' : 'Remover';
+					button(class="custom-button-admin hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline", type="submit")=btnName
+
+
+

@@ -1,0 +1,65 @@
+extends ../../layout.pug
+
+block header
+	style(type="text/css").
+		.fc-right button{
+			background: #1c1d1a !important;
+		}
+		.fc-right button:disabled{
+			opacity: .25;
+			pointer-events: none;
+		}
+		.mirador {
+			background: #1C1D1A;
+			border: 1px solid #1C1D1A;
+			color: white;
+		}
+		.fc-day-number{
+			text-decoration: underline !important;
+		}
+
+block content
+	include ../../parts/nav.pug
+	include ../../parts/menu.pug
+
+	div(class="container w-full flex flex-wrap mx-auto px-2 pt-8 lg:pt-16 mt-16")
+		+menu(false, false, false, false, false, false, true)
+		div(class="w-full lg:w-4/5 p-8 mt-6 lg:mt-0 text-gray-900 leading-normal bg-white border border-gray-400 border-rounded shadow-xl flex flex-wrap flex-col")
+			h1.title(class="w-full px-2 text-xl font-bold uppercase text-gray-600") Calendario de Mirador
+			p(class="w-full px-2 mb-4 font-bold text-gray-500") Vista de el mirador
+			.w-full.px-2.mb-4
+				a.bg-blue-500(class="hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" href="/admin/download/miradores" target="_blank") Descargar miradores como CSV
+			- var myEvents = JSON.stringify(events);
+			div#events.hidden(data-events=myEvents)
+			.w-full.px-2#calendarObject
+
+block scripts
+	script.
+		document.addEventListener('DOMContentLoaded', () => {
+			const calendarEl = document.getElementById('calendarObject');
+			const calendar = new FullCalendar.Calendar(calendarEl, {
+				plugins: ['interaction', 'dayGrid', 'timeGrid'],
+				header: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+				},
+				locale: 'es',
+				navLinks: true,
+				selectable: true,
+				events: JSON.parse(document.getElementById('events').dataset.events)
+			});
+			calendar.render();
+			//- calendar.on('dateClick', function(info){
+			//- 	console.log(info);
+			//- 	if(info.view.viewSpec.type === "dayGridMonth"){
+			//- 		window.location.href = `/admin/eventos/crear-evento?date=${info.dateStr}`;
+			//- 	} else {
+			//- 		let temp = info.dateStr.split('T');
+			//- 		let date = temp[0];
+			//- 		let time = temp[1].replace(':00-05:00', '');
+			//- 		console.log(date, time);
+			//- 		window.location.href = `/admin/eventos/crear-evento?date=${date}&time=${time}`;
+			//- 	}
+			//- })
+		});

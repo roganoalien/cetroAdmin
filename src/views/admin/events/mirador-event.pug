@@ -1,0 +1,84 @@
+extends ../../layout.pug
+
+block content
+	include ../../parts/nav.pug
+	include ../../parts/menu.pug
+
+	div(class="container w-full flex flex-wrap mx-auto px-2 pt-8 lg:pt-16 mt-16")
+		+menu(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true)
+		div(class="w-full lg:w-4/5 p-8 mt-6 lg:mt-0 text-gray-900 leading-normal bg-white border border-gray-400 border-rounded shadow-xl flex flex-wrap flex-col")
+			h1.title(class="px-2 w-full text-xl font-bold uppercase text-gray-600") Crear Evento Mirador
+			p(class="px-2 w-full mb-4 font-bold text-gray-500") Puedes crear múltiples eventos de Mirador con las mismas reglas
+			span#isLookout.hidden(data-lookout=`${lookout ? 'true' : 'false'}`)
+			form.w-full.flex.admin-form.flex-wrap(action=`${lookout ? '/admin/eventos/mirador/editar/' + lookout._id : '/admin/eventos/mirador/crear'}`, method="POST")
+				.px-2.mb-4(class="w-full input-group")
+					.bg-gray-200.px-4.py-4.rounded.flex.flex-wrap
+						.w-full.mb-2
+							label.block.text-gray-700.text-sm.font-bold.mb-2(for="dates") Fecha/s para agregar
+							input.flatpickr.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="text", class="focus:outline-none focus:shadow-outline", name="dates", id="dates", value=`${lookout ? lookout.date : ''}`, required)
+						.w-full.pr-0(class="md:w-1/2 md:pr-2")
+							label.block.text-gray-700.text-sm.font-bold.mb-2(for="time_start") Hora que inicia
+							input.flatpickr-timer.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="text", class="focus:outline-none focus:shadow-outline", name="time_start", id="time_start", value=`${lookout ? lookout.time.start : ''}`, required)
+						.w-full.pl-0(class="md:w-1/2 md:pl-2")
+							label.block.text-gray-700.text-sm.font-bold.mb-2(for="time_end") Hora que acaba
+							input.flatpickr-timer.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="text", class="focus:outline-none focus:shadow-outline", name="time_end", id="time_end", value=`${lookout ? lookout.time.end : ''}`, required)
+				.px-2.mb-4(class="w-full")
+					.bg-gray-200.p-4.rounded.flex.flex-wrap
+						h2.mb-4.px-2.w-full.text-gray-700.text-sm.font-bold Reglas de boletos
+						.px-2.mb-4(class="w-full md:w-1/2")
+							label.block.text-gray-700.text-sm.font-bold.mb-2(for="entrance") Ventana de acceso (en minutos)
+							input.flatpickr-time-entrance.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight.text-center(type="text", class="focus:outline-none focus:shadow-outline", name="entrance", id="entrance", value=`${lookout ? lookout.rules.entrance : ''}`, required)
+						.px-2.mb-4(class="w-full md:w-1/2")
+							label.block.text-gray-700.text-sm.font-bold.mb-2(for="valid") Vigencia de entrada (hr y minutos)
+							input.flatpickr-time.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="text", class="focus:outline-none focus:shadow-outline", name="valid", id="valid", value=`${lookout ? lookout.rules.validFor : ''}`, required)
+						.px-2.mb-4(class="w-full")
+							label.block.text-gray-700.text-sm.font-bold.mb-2(for="capacity") Aforo (solo números)
+							input.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="number", class="focus:outline-none focus:shadow-outline", name="capacity", id="capacity", value=`${lookout ? lookout.rules.capacity : ''}`, required)
+
+				.px-2.mt-4.w-full.flex.items-center.justify-center
+					- var btnName = lookout ? 'Actualizar Mirador' : 'Crear Mirador/es';
+					button(class="custom-button-admin hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline", type="submit")=btnName
+
+block scripts
+	script.
+		flatpickr('.flatpickr', {
+			dateFormat: 'Y-m-d',
+			locale: 'es',
+			//- maxDate: new Date().fp_incr(60),
+			//- minDate: 'today',
+			minDate: new Date().fp_incr(15),
+			mode: document.getElementById('isLookout').dataset.lookout === 'true' ? 'single' : 'multiple',
+			disable: [
+				function(date){
+					return !(date.getDate() % 60)
+				}
+			]
+		});
+		flatpickr('.flatpickr-time', {
+			enableTime: true,
+			noCalendar: true,
+			dateFormat: 'H:i',
+			time_24hr: true,
+			minTime: '01:00',
+			maxTime: '08:00',
+			defaultDate: '01:00'
+		});
+		flatpickr('.flatpickr-timer', {
+			enableTime: true,
+			noCalendar: true,
+			dateFormat: 'H:i',
+			time_24hr: true,
+			defaultDate: '00:00',
+			hourIncrement: 1,
+			minuteIncrement: 0
+		});
+		flatpickr('.flatpickr-time-entrance', {
+			enableTime: true,
+			noCalendar: true,
+			dateFormat: 'H:i',
+			time_24hr: true,
+			minTime: '00:15',
+			maxTime: '01:00',
+			defaultDate: '00:15'
+		});
+

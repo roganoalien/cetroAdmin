@@ -1,0 +1,57 @@
+extends ../../layout.pug
+
+block content
+	include ../../parts/nav.pug
+	include ../../parts/menu.pug
+
+	div(class="container w-full flex flex-wrap mx-auto px-2 pt-8 lg:pt-16 mt-16")
+		+menu(false, false, true, false, false, false, false)
+		div(class="w-full lg:w-4/5 p-8 mt-6 lg:mt-0 text-gray-900 leading-normal bg-white border border-gray-400 border-rounded shadow-xl flex flex-wrap flex-col")
+			h1.title(class="px-2 w-full text-xl font-bold uppercase text-gray-600") Crear nuevo usuario
+			p(class="px-2 w-full mb-4 font-bold text-gray-500") Aquí se puede crear un nuevo usuario y asignarle un rol. Ojo, no hay funcionalidad de cambiar password
+			form.w-full.flex.admin-form.flex-wrap(action=`${userEdit ? '/admin/usuarios/editar/' + userEdit._id : '/admin/usuarios/crear-usuario'}`, method="POST")
+				.px-2.mb-4(class="w-1/2")
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="name") Nombre
+					input.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tigt(type="text", class="focus:outline-none focus:shadow-outline", name="name", id="name", value=`${userEdit ? userEdit.name : ''}`)
+				.px-2.mb-4(class="w-1/2")
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="lastname") Apellido
+					input.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tigt(type="text", class="focus:outline-none focus:shadow-outline", name="lastname", id="lastname", value=`${userEdit ? userEdit.lastname : ''}`)
+				.px-2.mb-4(class="w-1/2")
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="email") Email
+					input.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tigt(type="email", class="focus:outline-none focus:shadow-outline", name="email", id="email", value=`${userEdit ? userEdit.email : ''}`)
+				.px-2.mb-4(class="w-1/2")
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="role") Rol en la plataforma
+					select.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tigt.bg-transparent(class="focus:outline-none focus:shadow-outline", name="role", id="role")
+						if !userEdit
+							option(value="reportes", selected) Reportes
+							option(value="admin") Administrador
+							option(value="gestor") Gestor de eventos
+						else if userEdit.role === "reportes"
+							option(value="reportes", selected) Reportes
+							option(value="admin") Administrador
+							option(value="gestor") Gestor de eventos
+						else if userEdit.role === "admin"
+							option(value="admin", selected) Administrador
+							option(value="reportes") Reportes
+							option(value="gestor") Gestor de eventos
+						else if userEdit.role === "gestor"
+							option(value="gestor", selected) Gestor de eventos
+							option(value="admin") Administrador
+							option(value="reportes") Reportes
+				.px-2.mb-4(class="w-1/2")
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="phone") Teléfono
+					input.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tigt(type="tel", class="focus:outline-none focus:shadow-outline", name="phone", id="phone", value=`${userEdit ? userEdit.phone : ''}`)
+				.px-2.mb-4(class="w-1/2")
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="position") Posición
+					input.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tigt(type="text", class="focus:outline-none focus:shadow-outline", name="position", id="position", value=`${userEdit ? userEdit.position : ''}`)
+				if !userEdit
+					.px-2.mb-4(class="w-1/2")
+						label.block.text-gray-700.text-sm.font-bold.mb-2(for="password") Password
+						input.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tigt(type="password", class="focus:outline-none focus:shadow-outline", name="password", id="password")
+					.px-2.mb-4(class="w-1/2")
+						label.block.text-gray-700.text-sm.font-bold.mb-2(for="confirmPassword") Confirm Password
+						input.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tigt(type="password", class="focus:outline-none focus:shadow-outline", name="confirmPassword", id="confirmPassword")
+				.px-2.mt-4.w-full.flex.items-center.justify-center
+					- var btnName = userEdit ? 'Actualizar Usuario' : 'Crear Usuario';
+					button(class="custom-button-admin hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline", type="submit")=btnName
+

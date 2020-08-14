@@ -1,0 +1,138 @@
+extends ../../layout.pug
+
+block content
+	include ../../parts/nav.pug
+	include ../../parts/menu.pug
+
+	div(class="container w-full flex flex-wrap mx-auto px-2 pt-8 lg:pt-16 mt-16")
+		+menu(false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false)
+		div(class="w-full lg:w-4/5 p-8 mt-6 lg:mt-0 text-gray-900 leading-normal bg-white border border-gray-400 border-rounded shadow-xl flex flex-wrap flex-col overflow-x-auto")
+			h1.title(class="w-full px-2 text-xl font-bold uppercase text-gray-600") Cupones
+			p(class="w-full px-2 mb-4 font-bold text-gray-500") Crear un cupón, necesitan existir marcas creadas para que se pueda crear
+			form.w-full.flex.admin-form.flex-wrap(action=`${promo ? '/admin/cupones/editar/' + promo._id : '/admin/cupones/crear'}`, method="POST", encType="multipart/form-data")
+				.px-2.mb-4(class="w-full md:w-6/12")
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="title") Nombre
+					input.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="text", class="focus:outline-none focus:shadow-outline", name="title", id="title", value=`${promo ? promo.title : ''}`, required)
+				.px-2.mb-4(class="w-full md:w-6/12")
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="discount") Descuento
+					input.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="text", class="focus:outline-none focus:shadow-outline", name="discount", id="discount", value=`${promo ? promo.discount : ''}`, required)
+				.px-2.mb-4(class="w-full")
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="description") Descripción
+					textarea.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(class="focus:outline-none focus:shadow-outline", name="description", id="description", required)=`${promo ? promo.description : ''}`
+				.px-2.mb-4(class="w-full md:w-6/12")
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="valid_until") Válido hasta
+					input.flatpickr.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="text", class="focus:outline-none focus:shadow-outline", name="valid_until", id="valid_until", value=`${promo ? promo.valid_until : ''}`, required)
+				.px-2.mb-4(class="w-full md:w-6/12")
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="brand") Marca
+					select.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight.bg-transparent(class="focus:outline-none focus:shadow-outline", name="brand", id="brand", required)
+						if !brands
+							option No hay marcas disponbiles
+						else
+							each brand in brands
+								if promo && promo.brand.name === brand.name
+									option(value=brand._id, selected)=brand.name
+								else
+									option(value=brand._id)=brand.name
+				.px-2.mb-4.flex.flex-col(class="w-full")
+					p.w-full.block.text-gray-700.text-sm.font-bold.mb-2 Palabras Claves
+					.w-full.flex.flex-wrap.items-start.justify-start
+						.w-full(class="md:w-1/2 flex items-center justify-start")
+							if promos && promo.keywords.indexOf('alimentos') > -1
+								input.mr-2(type="checkbox", name="keywords" value="alimentos" checked)
+							else
+								input.mr-2(type="checkbox", name="keywords" value="alimentos")
+							label Alimentos
+						.w-full(class="md:w-1/2 flex items-center justify-start")
+							if promos && promo.keywords.indexOf('wellness') > -1
+								input.mr-2(type="checkbox", name="keywords" value="wellness" checked)
+							else
+								input.mr-2(type="checkbox", name="keywords" value="wellness")
+							label Wellness
+						.w-full(class="md:w-1/2 flex items-center justify-start")
+							if promos && promo.keywords.indexOf('entretenimiento') > -1
+								input.mr-2(type="checkbox", name="keywords" value="entretenimiento" checked)
+							else
+								input.mr-2(type="checkbox", name="keywords" value="entretenimiento")
+							label Entretenimiento
+						.w-full(class="md:w-1/2 flex items-center justify-start")
+							if promos && promo.keywords.indexOf('tecnología') > -1
+								input.mr-2(type="checkbox", name="keywords" value="tecnología" checked)
+							else
+								input.mr-2(type="checkbox", name="keywords" value="tecnología")
+							label Tecnología
+						.w-full(class="md:w-1/2 flex items-center justify-start")
+							if promos && promo.keywords.indexOf('servicios') > -1
+								input.mr-2(type="checkbox", name="keywords" value="servicios" checked)
+							else
+								input.mr-2(type="checkbox", name="keywords" value="servicios")
+							label Servicios
+						.w-full(class="md:w-1/2 flex items-center justify-start")
+							if promos && promo.keywords.indexOf('fitness') > -1
+								input.mr-2(type="checkbox", name="keywords" value="fitness" checked)
+							else
+								input.mr-2(type="checkbox", name="keywords" value="fitness")
+							label Fitness
+						.w-full(class="md:w-1/2 flex items-center justify-start")
+							if promos && promo.keywords.indexOf('moda & estilo') > -1
+								input.mr-2(type="checkbox", name="keywords" value="moda & estilo" checked)
+							else
+								input.mr-2(type="checkbox", name="keywords" value="moda & estilo")
+							label Moda & Estilo
+						.w-full(class="md:w-1/2 flex items-center justify-start")
+							if promos && promo.keywords.indexOf('hogar') > -1
+								input.mr-2(type="checkbox", name="keywords" value="hogar" checked)
+							else
+								input.mr-2(type="checkbox", name="keywords" value="hogar")
+							label Hogar
+						.w-full(class="md:w-1/2 flex items-center justify-start")
+							if promos && promo.keywords.indexOf('viajes') > -1
+								input.mr-2(type="checkbox", name="keywords" value="viajes" checked)
+							else
+								input.mr-2(type="checkbox", name="keywords" value="viajes")
+							label Viajes
+						.w-full(class="md:w-1/2 flex items-center justify-start")
+							if promos && promo.keywords.indexOf('educación') > -1
+								input.mr-2(type="checkbox", name="keywords" value="educación" checked)
+							else
+								input.mr-2(type="checkbox", name="keywords" value="educación")
+							label Educación
+						.w-full(class="md:w-1/2 flex items-center justify-start")
+							if promos && promo.keywords.indexOf('productos innovadores') > -1
+								input.mr-2(type="checkbox", name="keywords" value="productos innovadores" checked)
+							else
+								input.mr-2(type="checkbox", name="keywords" value="productos innovadores")
+							label Productos Innovadores
+						.w-full(class="md:w-1/2 flex items-center justify-start")
+							if promos && promo.keywords.indexOf('gaming') > -1
+								input.mr-2(type="checkbox", name="keywords" value="gaming" checked)
+							else
+								input.mr-2(type="checkbox", name="keywords" value="gaming")
+							label Gaming
+						.w-full(class="md:w-1/2 flex items-center justify-start")
+							if promos && promo.keywords.indexOf('gaming') > -1
+								input.mr-2(type="checkbox", name="keywords" value="autos" checked)
+							else
+								input.mr-2(type="checkbox", name="keywords" value="autos")
+							label Autos
+						.w-full(class="md:w-1/2 flex items-center justify-start")
+							if promos && promo.keywords.indexOf('cultura') > -1
+								input.mr-2(type="checkbox", name="keywords" value="cultura" checked)
+							else
+								input.mr-2(type="checkbox", name="keywords" value="cultura")
+							label Cultura
+				.px-2.mt-4.w-full.flex.items-center.justify-center
+					- var btnName = event ? 'Actualizar Cupón' : 'Crear Cupón';
+					button(class="custom-button-admin hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline", type="submit")=btnName
+
+block scripts
+	script.
+		flatpickr('.flatpickr', {
+			dateFormat: 'Y-m-d',
+			locale: 'es',
+			minDate: new Date(),
+			disable: [
+				function(date){
+					return !(date.getDate() % 60)
+				}
+			]
+		});

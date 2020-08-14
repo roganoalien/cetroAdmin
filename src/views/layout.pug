@@ -1,0 +1,32 @@
+doctype html
+
+head(lang="es")
+	meta(charset="utf-8")
+	meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
+	meta(http-equiv="X-UA-Compatible", content="ie=edge")
+	title=title
+	link(rel="stylesheet", href="/public/core/main.css")
+	link(rel="stylesheet", href="/public/daygrid/main.css")
+	link(rel="stylesheet", href="/public/timegrid/main.css")
+	link(rel="stylesheet", href="/public/css/vendors/css-main-vendors.css")
+	link(rel="stylesheet", href="/public/css/main.min.css")
+	script(src="/public/core/main.js")
+	script(src="/public/core/locales-all.js")
+	script(src="/public/daygrid/main.js")
+	script(src="/public/timegrid/main.js")
+	//- script(src="/public/list/main.js")
+	script(src="/public/interaction/main.js")
+	block header
+
+body.bg-gray-300.min-h-screen
+	include parts/messages.pug
+	block content
+
+	script(src="/public/js/vendors/vendors.min.js")
+	script(src="/public/js/main.min.js")
+	script.
+		document.addEventListener('DOMContentLoaded', function(){
+			//-- Default Scripts to load
+			UTILS.alert();
+		});
+	block scripts

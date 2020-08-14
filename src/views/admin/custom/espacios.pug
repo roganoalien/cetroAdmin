@@ -1,0 +1,42 @@
+extends ../../layout.pug
+
+block content
+	include ../../parts/nav.pug
+	include ../../parts/menu.pug
+
+	div(class="container w-full flex flex-wrap mx-auto px-2 pt-8 lg:pt-16 mt-16")
+		+menu(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true)
+		div(class="w-full lg:w-4/5 p-8 mt-6 lg:mt-0 text-gray-900 leading-normal bg-white border border-gray-400 border-rounded shadow-xl flex flex-wrap flex-col overflow-x-auto")
+			h1.title(class="w-full px-2 text-xl font-bold uppercase text-gray-600")=title
+			p(class="w-full px-2 mb-4 font-bold text-gray-500") Ve, elimina y crea los espacios extras para los eventos
+			form.w-full.flex.admin-form.flex-wrap(action="/admin/custom/espacios", method="POST")
+				.w-full.bg-gray-200.px-4.py-4.rounded.flex.flex-wrap
+					h2.px-2.mb-2.w-full.text-xs CREAR
+					.px-2.mb-4(class="w-full flex items-center justify-start")
+						label.block.text-gray-700.text-sm.font-bold.mb-2.mr-4.leading-tight(for="name") Nombre
+						input.mr-4.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="text", class="focus:outline-none focus:shadow-outline", name="name", id="name", required)
+						button.w-full(class="custom-button-admin hover:bg-blue-700 text-white font-bold py-2 px-4 rounded leading-tight focus:outline-none focus:shadow-outline", type="submit") Crear Espacio Adicional
+			if spaces.length < 1
+				h2.px-2.mt-6 Todavía no hay espacios adicionales creados
+			else
+				h2.px-2.mt-10.mb-2 Espacios Adicionales creados
+				.flex.flex-col.mb-4
+					.-my-2.py-2.overflow-x-auto(class="sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8")
+						.align-middle.inline-block.min-w-full.overflow-hidden(class="border border-gray-200")
+							table.min-w-full
+								thead
+									tr
+										th.px-4.py-3.border-b.border-gray-200.bg-gray-200.text-left.text-xs.leading-4.font-medium.text-gray-600.uppercase.tracking-wider Nombre
+										th.px-4.py-3.border-b.border-gray-200.bg-gray-200.text-left.text-xs.leading-4.font-medium.text-gray-600.uppercase.tracking-wider Acciones
+								tbody.bg-white
+									if spaces
+										each space in spaces
+											tr.border-b.border-gray-200(class="hover:bg-gray-100")
+												td.px-4.py-2.border-b.border-gray-200
+													.flex.items-center
+														.text-sm.leading-5.font-medium.text-gray-900=space.name
+												td.px-4.py-2.whitespace-no-wrap.text-right.text-sm.leading-5.font-black.border-b.border-gray-200
+													.flex.justify-start
+														a.text-red-500(href=`/admin/custom/spaces/eliminar/${space._id}` class="hover:text-red-700", onclick="return confirm('Esta acción eliminará el cupón. ¿Deseas continuar?')")
+															<svg class="fill-current" xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg>
+

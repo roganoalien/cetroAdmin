@@ -1,0 +1,63 @@
+extends ../../layout.pug
+
+block header
+	style(type="text/css").
+		.fc-right button{
+			background: #1c1d1a !important;
+		}
+		.fc-right button:disabled{
+			opacity: .25;
+			pointer-events: none;
+		}
+		.no-mirador {
+			background: #D83781;
+			border: 1px solid #C43275;
+		}
+		.mirador {
+			background: #1C1D1A;
+			border: 1px solid #1C1D1A;
+			color: white;
+		}
+
+block content
+	include ../../parts/nav.pug
+	include ../../parts/menu.pug
+
+	div(class="container w-full flex flex-wrap mx-auto px-2 pt-8 lg:pt-16 mt-16")
+		+menu(false, false, false, false, false, false, false, true)
+		div(class="w-full lg:w-4/5 p-8 mt-6 lg:mt-0 text-gray-900 leading-normal bg-white border border-gray-400 border-rounded shadow-xl flex flex-wrap flex-col")
+			h1.title(class="w-full px-2 text-xl font-bold uppercase text-gray-600") Eventos de Mirador
+			p(class="w-full px-2 mb-4 font-bold text-gray-500") Recuerda que solo se muestran automáticamente los eventos de mirador del día actual a dos semanas. Para remover un día se tiene que hacer con 2 semanas de anticipación. Solo se marcan los eventos de mirador que están dentro de las dos semanas y si hay futuros días cancelados de mirador esos se mostrarán sin restricción de futuro.
+			.button-holder.w-full.px-2.mb-4.flex
+				a.custom-button-admin.hover.text-white.font-bold.py-2.px-4.rounded(href="/admin/mirador/remover", class="focus:outline-none focus:shadow-none") Remover fecha de mirador
+			- var myEvents = JSON.stringify(events);
+			div#events.hidden(data-events=myEvents)
+			.w-full.px-2#calendarObject
+
+block scripts
+	script.
+		document.addEventListener('DOMContentLoaded', () => {
+			const calendarEl = document.getElementById('calendarObject');
+			const calendar = new FullCalendar.Calendar(calendarEl, {
+				plugins: ['interaction', 'dayGrid', 'timeGrid'],
+				header: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+				},
+				locale: 'es',
+				navLinks: true,
+				selectable: true,
+				events: JSON.parse(document.getElementById('events').dataset.events)
+				//- events: [
+				//- 	{
+				//- 		title: 'Mirador',
+				//- 		daysOfWeek: ['0', '1', '2', '3', '4', '5', '6'],
+				//- 		startTime: '09:00:00',
+				//- 		endTime: '22:00:00',
+				//- 		color: 'green'
+				//- 	}
+				//- ]
+			});
+			calendar.render();
+		});

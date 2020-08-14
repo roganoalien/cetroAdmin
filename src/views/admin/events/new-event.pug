@@ -1,0 +1,293 @@
+extends ../../layout.pug
+
+block content
+	include ../../parts/nav.pug
+	include ../../parts/menu.pug
+
+	div(class="container w-full flex flex-wrap mx-auto px-2 pt-8 lg:pt-16 mt-16")
+		+menu(false, false, false, false, true, false, false)
+		div(class="w-full lg:w-4/5 p-8 mt-6 lg:mt-0 text-gray-900 leading-normal bg-white border border-gray-400 border-rounded shadow-xl flex flex-wrap flex-col")
+			h1.title(class="px-2 w-full text-xl font-bold uppercase text-gray-600") Crear nuevo evento
+			p(class="px-2 w-full mb-4 font-bold text-gray-500") Aquí se puede crear un evento nuevo
+			form.w-full.flex.admin-form.flex-wrap(action=`${event ? '/admin/eventos/regular/editar/' + event._id : '/admin/eventos/regular/crear-evento'}`, method="POST")
+				.px-2.mb-4(class="w-full")
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="name") Nombre
+					input.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="text", class="focus:outline-none focus:shadow-outline", name="name", id="name", value=`${event ? event.name : ''}`, required)
+				.px-2.mb-4(class="w-1/2 input-group")
+					.bg-gray-200.px-4.py-4.rounded
+						label.block.text-gray-700.text-sm.font-bold.mb-2(for="date_init") Fecha de Inicio
+						if dateQuery
+							input.flatpickr.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="text", class="focus:outline-none focus:shadow-outline", name="date_init", id="date_init", value=dateQuery, required)
+						else
+							input.flatpickr.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="text", class="focus:outline-none focus:shadow-outline", name="date_init", id="date_init", value=`${event ? event.date.start : ''}`, required)
+						label.block.text-gray-700.text-sm.font-bold.mb-2(for="time_init") Hora de Inicio
+						if timeQuery
+							input.flatpickr-time.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="text", class="focus:outline-none focus:shadow-outline", name="time_init", id="time_init", value=timeQuery, required)
+						else
+							input.flatpickr-time.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="text", class="focus:outline-none focus:shadow-outline", name="time_init", id="time_init", value=`${event ? event.time.start : ''}`, required)
+				.px-2.mb-4(class="w-1/2 input-group")
+					.bg-gray-200.px-4.py-4.rounded
+						h2.w-full.text-xs Cliente
+						span.w-full(class="md:w-1/3")
+							label.block.text-gray-700.text-sm.font-bold.mb-2(for="client_name") Nombre
+							input.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="text", class="focus:outline-none focus:shadow-outline", name="client_name", id="client_name", value=`${event ? event.client.name : ''}`, required)
+						span.w-full(class="md:w-1/3")
+							label.block.text-gray-700.text-sm.font-bold.mb-2(for="client_email") Email
+							input.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="email", class="focus:outline-none focus:shadow-outline", name="client_email", id="client_email", value=`${event ? event.client.email : ''}`, required)
+						span.w-full(class="md:w-1/3")
+							label.block.text-gray-700.text-sm.font-bold.mb-2(for="client_phone") Teléfono
+							input.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="tel", class="focus:outline-none focus:shadow-outline", name="client_phone", id="client_phone", value=`${event ? event.client.phone : ''}`, required)
+				.px-2.mb-4(class="w-1/2")
+					.bg-gray-200.px-4.py-4.rounded
+						label.px-2.block.text-gray-700.text-sm.font-bold.mb-2(for="date_end") Fecha en que termina
+						input.px-2.flatpickr.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="text", class="focus:outline-none focus:shadow-outline", name="date_end", id="date_end", value=`${event ? event.date.end : ''}`, required)
+						label.px-2.block.text-gray-700.text-sm.font-bold.mb-2(for="time_end") Hora que acaba
+						input.px-2.flatpickr-time.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="text", class="focus:outline-none focus:shadow-outline", name="time_end", id="time_end", value=`${event ? event.time.end : ''}`, required)
+				//- .px-2.mb-4(class="w-1/2")
+				//- 	label.block.text-gray-700.text-sm.font-bold.mb-2(for="schedule") Horario del evento
+				//- 	select.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight.bg-transparent(class="focus:outline-none focus:shadow-outline", name="schedule", id="schedule", required)
+				//- 		if !event
+				//- 			option(value="Día completo", selected) Día completo
+				//- 			option(value="Medio día") Medio día
+				//- 			option(value="Cuarto de día") Cuarto de día
+				//- 		else if event.schedule === "Día completo"
+				//- 			option(value="Día completo", selected) Día completo
+				//- 			option(value="Medio día") Medio día
+				//- 			option(value="Cuarto de día") Cuarto de día
+				//- 		else if event.schedule === "Medio día"
+				//- 			option(value="Día completo") Día completo
+				//- 			option(value="Medio día", selected) Medio día
+				//- 			option(value="Cuarto de día") Cuarto de día
+				//- 		else if event.schedule === "Cuarto de día"
+				//- 			option(value="Día completo") Día completo
+				//- 			option(value="Medio día") Medio día
+				//- 			option(value="Cuarto de día", selected) Cuarto de día
+				.px-2.mb-4(class="w-1/2")
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="type") Tipo de evento
+					select.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight.bg-transparent(class="focus:outline-none focus:shadow-outline", name="type", id="type", required)
+						if !event
+							option(value="Público", selected) Público
+							option(value="Privado") Privado
+							option(value="Escuela") Escuela
+						else if event.type === "Público"
+							option(value="Público", selected) Público
+							option(value="Privado") Privado
+							option(value="Escuela") Escuela
+						else if event.type === "Privado"
+							option(value="Público") Público
+							option(value="Privado", selected) Privado
+							option(value="Escuela") Escuela
+						else if event.type === "Escuela"
+							option(value="Público") Público
+							option(value="Privado") Privado
+							option(value="Escuela", selected) Escuela
+				.px-2.mb-4(class="w-1/2")
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="classification") Clasificación
+					select.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight.bg-transparent(class="focus:outline-none focus:shadow-outline", name="classification", id="classification", required)
+						if !event
+							option(value="Banquete", selected) Banquete
+							option(value="Activación") Activación
+							option(value="Fiesta") Fiesta
+							option(value="Experiencia") Experiencia
+							option(value="Otro") Otro
+						else if event.classification === "Banquete"
+							option(value="Banquete", selected) Banquete
+							option(value="Activación") Activación
+							option(value="Fiesta") Fiesta
+							option(value="Experiencia") Experiencia
+							option(value="Otro") Otro
+						else if event.classification === "Activación"
+							option(value="Banquete") Banquete
+							option(value="Activación", selected) Activación
+							option(value="Fiesta") Fiesta
+							option(value="Experiencia") Experiencia
+							option(value="Otro") Otro
+						else if event.classification === "Fiesta"
+							option(value="Banquete") Banquete
+							option(value="Activación") Activación
+							option(value="Fiesta", selected) Fiesta
+							option(value="Experiencia") Experiencia
+							option(value="Otro") Otro
+						else if event.classification === "Experiencia"
+							option(value="Banquete") Banquete
+							option(value="Activación") Activación
+							option(value="Fiesta") Fiesta
+							option(value="Experiencia", selected) Experiencia
+							option(value="Otro") Otro
+						else if event.classification === "Otro"
+							option(value="Banquete") Banquete
+							option(value="Activación") Activación
+							option(value="Fiesta") Fiesta
+							option(value="Experiencia") Experiencia
+							option(value="Otro", selected) Otro
+				if event
+					.px-2.mb-4(class="w-1/2")
+						label.block.text-gray-700.text-sm.font-bold.mb-2(for="status") Estatus
+						select.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight.bg-transparent(class="focus:outline-none focus:shadow-outline", name="status", id="status", required)
+							//- if !event
+							//- 	option(value=)
+							//- 	option(value="Reservado", selected) Reservado
+							//- 	option(value="Pendiente de pago") Pendiente de pago
+							//- 	option(value="Pagado") Pagado
+							//- 	option(value="En proceso") En proceso
+							//- 	option(value="Finalizado") Finalizado
+							if event.status === "Sin aprobación"
+								option(value="Sin aprobación", selected) Sin aprobación
+								option(value="Reservado") Reservado
+								option(value="Pendiente de pago") Pendiente de pago
+								option(value="Pagado") Pagado
+								option(value="En proceso") En proceso
+								option(value="Finalizado") Finalizado
+							else if event.status === "Reservado"
+								option(value="Sin aprobación") Sin aprobación
+								option(value="Reservado", selected) Reservado
+								option(value="Pendiente de pago") Pendiente de pago
+								option(value="Pagado") Pagado
+								option(value="En proceso") En proceso
+								option(value="Finalizado") Finalizado
+							else if event.status === "Pendiente de pago"
+								option(value="Sin aprobación") Sin aprobación
+								option(value="Reservado") Reservado
+								option(value="Pendiente de pago", selected) Pendiente de pago
+								option(value="Pagado") Pagado
+								option(value="En proceso") En proceso
+								option(value="Finalizado") Finalizado
+							else if event.status === "Pagado"
+								option(value="Sin aprobación") Sin aprobación
+								option(value="Reservado") Reservado
+								option(value="Pendiente de pago") Pendiente de pago
+								option(value="Pagado", selected) Pagado
+								option(value="En proceso") En proceso
+								option(value="Finalizado") Finalizado
+							else if event.status === "En proceso"
+								option(value="Sin aprobación") Sin aprobación
+								option(value="Reservado") Reservado
+								option(value="Pendiente de pago") Pendiente de pago
+								option(value="Pagado") Pagado
+								option(value="En proceso", selected) En proceso
+								option(value="Finalizado") Finalizado
+							else if event.status === "Finalizado"
+								option(value="Sin aprobación") Sin aprobación
+								option(value="Reservado") Reservado
+								option(value="Pendiente de pago") Pendiente de pago
+								option(value="Pagado") Pagado
+								option(value="En proceso") En proceso
+								option(value="Finalizado", selected) Finalizado
+				.px-2.mb-4(class="w-1/2")
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="responsable") Responsable del evento
+					select.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight.bg-transparent(class="focus:outline-none focus:shadow-outline", name="responsable", id="responsable", required)
+						if !event
+							//- option(selected) Selecciona un responsable
+							each user in users
+								option(value=user._id)=user.name
+						else if event
+							each user in users
+								if user._id === event.responsable._id
+									option(value=user._id, selected)=user.name
+								else
+									option(value=user._id)=user.name
+				.px-2.mb-4(class="w-1/2")
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="space") Espacio
+					select.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight.bg-transparent(class="focus:outline-none focus:shadow-outline", name="space", id="space", required)
+						if !event
+							option(value="Tres Cuartos", selected) Tres Cuartos
+							option(value="Mitad") Mitad
+							option(value="Un Cuarto") Un cuarto
+						else if event.space === "Tres Cuartos"
+							option(value="Tres Cuartos", selected) Tres Cuartos
+							option(value="Mitad") Mitad
+							option(value="Un Cuarto") Un cuarto
+						else if event.space === "Mitad"
+							option(value="Tres Cuartos") Tres Cuartos
+							option(value="Mitad", selected) Mitad
+							option(value="Un Cuarto") Un cuarto
+						else if event.space === "Un Cuarto"
+							option(value="Tres Cuartos") Tres Cuartos
+							option(value="Mitad") Mitad
+							option(value="Un Cuarto", selected) Un cuarto
+					.graphic-emulator#graphicator
+						span.one
+						span.two
+						span.three
+				.px-2.mb-4(class="w-1/2")
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="services") Servicios
+					select.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight.bg-transparent(class="focus:outline-none focus:shadow-outline", name="services", id="services", required)
+						if !event
+							option(value="elite", selected) Elite
+							option(value="AAA") AAA
+							option(value="AA") AA
+							option(value="AA") A
+						else if event.services === "elite"
+							option(value="elite", selected) Elite
+							option(value="AAA") AAA
+							option(value="AA") AA
+							option(value="A") A
+						else if event.services === "AAA"
+							option(value="elite") Elite
+							option(value="AAA", selected) AAA
+							option(value="AA") AA
+							option(value="A") A
+						else if event.services === "AA"
+							option(value="elite") Elite
+							option(value="AAA") AAA
+							option(value="AA", selected) AA
+							option(value="A") A
+						else if event.services === "A"
+							option(value="elite") Elite
+							option(value="AAA") AAA
+							option(value="AA") AA
+							option(value="A", selected) A
+				.px-2.mb-4(class="w-1/2")
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="guests") Invitados (por definir)
+					input.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="text", class="focus:outline-none focus:shadow-outline", name="guests", id="guests")
+				.px-2.mb-4(class="w-1/2")
+					label.block.text-gray-700.text-sm.font-bold.mb-2(for="comments") Comentarios
+					input.custom-input-admin.appearance-none.border.rounded.w-full.py-2.px-3.text-gray-700.leading-tight(type="text", class="focus:outline-none focus:shadow-outline", name="comments", id="comments", value=`${event ? event.comments : ''}`)
+
+				.px-2.mt-4.w-full.flex.items-center.justify-center
+					- var btnName = event ? 'Actualizar Evento' : 'Crear Evento';
+					button(class="custom-button-admin hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline", type="submit")=btnName
+
+block scripts
+	script.
+		const space = document.getElementById('space');
+		changeSpacer(space.value);
+		space.addEventListener('change', (e)=>{
+			let value = e.target.value;
+			changeSpacer(value);
+		});
+		function changeSpacer(value){
+			if(value === 'Tres Cuartos'){
+				document.getElementById('graphicator').classList.remove('one-selected');
+				document.getElementById('graphicator').classList.remove('two-selected');
+				document.getElementById('graphicator').classList.add('three-selected');
+			} else if(value === 'Mitad'){
+				document.getElementById('graphicator').classList.remove('one-selected');
+				document.getElementById('graphicator').classList.remove('three-selected');
+				document.getElementById('graphicator').classList.add('two-selected');
+			} else {
+				document.getElementById('graphicator').classList.remove('three-selected');
+				document.getElementById('graphicator').classList.remove('two-selected');
+				document.getElementById('graphicator').classList.add('one-selected');
+			}
+		}
+		flatpickr('.flatpickr', {
+			dateFormat: 'Y-m-d',
+			locale: 'es',
+			//- maxDate: new Date().fp_incr(60),
+			//- minDate: 'today',
+			minDate: new Date().fp_incr(15),
+			//- mode: 'range',
+			disable: [
+				function(date){
+					return !(date.getDate() % 60)
+				}
+			]
+		});
+		flatpickr('.flatpickr-time', {
+			enableTime: true,
+			noCalendar: true,
+			dateFormat: 'H:i',
+			time_24hr: true
+		});
+

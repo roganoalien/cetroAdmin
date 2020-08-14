@@ -1,0 +1,80 @@
+extends ../../layout.pug
+
+block content
+	include ../../parts/nav.pug
+	include ../../parts/menu.pug
+
+	div(class="container w-full flex flex-wrap mx-auto px-2 pt-8 lg:pt-16 mt-16")
+		+menu(false, false, false, true, false, false, false)
+		div(class="w-full lg:w-4/5 p-8 mt-6 lg:mt-0 text-gray-900 leading-normal bg-white border border-gray-400 border-rounded shadow-xl flex flex-wrap flex-col overflow-x-auto")
+			h1.title(class="w-full px-2 text-xl font-bold uppercase text-gray-600") Boletos vendidos del mirador
+			p(class="w-full px-2 mb-4 font-bold text-gray-500") Aquí podrás ver todos los boletos vendidos por cada día del mirador
+			if lookouts.length < 1
+				h2.px-2 No hay miradores
+			else
+				.flex.flex-col.mb-4
+					.-my-2.py-2.overflow-x-auto(class="sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8")
+						.align-middle.inline-block.min-w-full.overflow-hidden(class="border border-gray-200")
+							table.min-w-full
+								thead
+									tr
+										th.px-4.py-3.border-b.border-gray-200.bg-gray-200.text-left.text-xs.leading-4.font-medium.text-gray-600.uppercase.tracking-wider Fecha
+										th.px-4.py-3.border-b.border-gray-200.bg-gray-200.text-left.text-xs.leading-4.font-medium.text-gray-600.uppercase.tracking-wider Entrada cada
+										th.px-4.py-3.border-b.border-gray-200.bg-gray-200.text-left.text-xs.leading-4.font-medium.text-gray-600.uppercase.tracking-wider Máximo entrada
+										th.px-4.py-3.border-b.border-gray-200.bg-gray-200.text-left.text-xs.leading-4.font-medium.text-gray-600.uppercase.tracking-wider Aforo hr
+										th.px-4.py-3.border-b.border-gray-200.bg-gray-200.text-left.text-xs.leading-4.font-medium.text-gray-600.uppercase.tracking-wider Hr de inicio
+										th.px-4.py-3.border-b.border-gray-200.bg-gray-200.text-left.text-xs.leading-4.font-medium.text-gray-600.uppercase.tracking-wider Hr de cerrada
+										th.px-4.py-3.border-b.border-gray-200.bg-gray-200.text-left.text-xs.leading-4.font-medium.text-gray-600.uppercase.tracking-wider Boletos vendidos
+								tbody.bg-white
+									if lookouts
+										each lookout in lookouts
+											tr.border-b.border-gray-200(class="hover:bg-gray-100")
+												td.px-4.py-2.border-b.border-gray-200
+													.flex.items-center
+														.text-sm.leading-5.font-medium.text-gray-900=lookout.date
+												td.px-4.py-2.border-b.border-gray-200
+													.flex.items-center
+														.text-sm.leading-5.font-medium.text-gray-900=lookout.rules.entrance
+												td.px-4.py-2.whitespace-no-wrap.border-b.border-gray-200
+													.flex.items-center
+														.text-sm.leading-5.font-medium.text-gray-900=lookout.rules.validFor
+												td.px-4.py-2.whitespace-no-wrap.border-b.border-gray-200
+													.flex.items-center
+														.text-sm.leading-5.font-medium.text-gray-900=lookout.rules.capacity
+												td.px-4.py-2.whitespace-no-wrap.border-b.border-gray-200
+													.flex.items-center
+														.text-sm.leading-5.font-medium.text-gray-900=lookout.time.start
+												td.px-4.py-2.whitespace-no-wrap.border-b.border-gray-200
+													.flex.items-center
+														.text-sm.leading-5.font-medium.text-gray-900=lookout.time.end
+												td.px-4.py-2.whitespace-no-wrap.border-b.border-gray-200
+													.flex.items-center
+														.text-sm.leading-5.font-medium.text-gray-900
+															ul.flex.flex-col.justify-start
+																if lookout.tickets
+																	each ticket in lookout.tickets
+																		li
+																			p.m-0.text-left
+																				strong=ticket.time
+																			p.m-0
+																				em=ticket.sold
+																				span #{" "}vendidos de #{" "}
+																				em=ticket.capacity
+																else
+																	li modelo viejo de mirador, hay que crear uno nuevo
+															//- 	- var timeStart = parseInt(lookout.time.start)
+															//- 	- var timeEnd = parseInt(lookout.time.end)
+															//- 	li
+															//- 		p.m-0.flex
+															//- 			strong=lookout.time.start
+															//- 		p.m-0
+															//- 			span 100 de #{lookout.rules.capacity}
+															//- ul
+															//- 	- var timeStart = parseInt(lookout.time.start.replace(":00"))
+															//- 	- var timeEnd = parseInt(lookout.time.end.replace(":00"))
+															//- 	while timeStart <= timeEnd
+															//- 		li.flex.justify-start
+															//- 			p.m-0
+															//- 				strong=`${timeStart}:00 -`
+															//- p.m-0=`${100} de ${lookout.rules.capacity}`
+
